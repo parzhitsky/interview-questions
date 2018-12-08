@@ -1,0 +1,21 @@
+{
+  "name": "interview-questions",
+  "version": "1.0.0",
+  "description": "Answers to various interview questions",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "npx ts-node index"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.1.4",
+    "chalk": "^2.4.1",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "@valuer/main": "^0.15.23",
+    "ts-node": "^7.0.1"
+  }
+}
