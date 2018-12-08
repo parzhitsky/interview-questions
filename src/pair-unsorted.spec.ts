@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
 
-import pairUnsorted from "../src/pair-unsorted";
+import pairUnsorted from "./pair-unsorted";
 
 describe("pair-unsorted", () => {
 	it("checks whether there is a pair of numbers in a given unsorted list, which sum is equal to a given sum", () => {

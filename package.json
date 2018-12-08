@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -r ./node_modules/ts-node/register ./test/**/*.spec.ts",
+    "test": "./node_modules/.bin/mocha -r ./node_modules/ts-node/register ./src/*.spec.ts",
     "start": "npx ts-node index"
   },
   "author": "",

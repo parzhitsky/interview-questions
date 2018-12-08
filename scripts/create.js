@@ -17,8 +17,8 @@ const files = [
 		contents: (descr ? `/** ${ descr } */\n` : "") + `export default function ${ camel }() {\n\t// ...\n};\n`,
 	},
 	{
-		filename: `./test/${ kebab }.spec.ts`,
-		contents: `import "mocha";\nimport { expect } from "chai";\n\nimport ${ camel } from "../src/${ kebab }";\n\ndescribe("${ kebab }", () => {\n\tit("${ descr || "<no description>" }");\n});\n`,
+		filename: `./src/${ kebab }.spec.ts`,
+		contents: `import "mocha";\nimport { expect } from "chai";\n\nimport ${ camel } from "./${ kebab }";\n\ndescribe("${ kebab }", () => {\n\tit("${ descr || "<no description>" }");\n});\n`,
 	},
 ];
 
