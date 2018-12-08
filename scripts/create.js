@@ -1,9 +1,8 @@
 const camelcase = require("camelcase");
 const { valuer } = require("@valuer/main");
 const { writeFile, exists: _exists } = require("fs");
-const { promisify } = require("util");
 
-const exists = promisify(_exists);
+const exists = require("util").promisify(_exists);
 
 // ***
 
