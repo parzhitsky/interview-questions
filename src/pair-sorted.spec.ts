@@ -1,12 +1,25 @@
 import "mocha";
 import { expect } from "chai";
+import { help } from "@valuer/help";
 
 import pairSorted from "./pair-sorted";
 
+const inputArgsList: [ number[], number ][] = [
+	[ [1, 2, 3, 5], 6 ],
+	[ [1, 2, 3, 5], 8 ],
+	[ [1, 2, 3, 5], 9 ],
+];
+
+const outputs: boolean[] = [
+	true,
+	true,
+	false,
+];
+
 describe("pair-sorted", () => {
-	it("checks whether there is a pair of numbers in a given sorted list, which sum is equal to a given sum", () => {
-		expect(pairSorted([1, 2, 3, 5], 6)).to.be.true;
-		expect(pairSorted([1, 2, 3, 5], 8)).to.be.true;
-		expect(pairSorted([1, 2, 3, 5], 9)).to.be.false;
+	inputArgsList.forEach((inputArgs, index) => {
+		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(outputs[index]) }`, () => {
+			expect(pairSorted(...inputArgs)).to.equal(outputs[index]);
+		});
 	});
 });

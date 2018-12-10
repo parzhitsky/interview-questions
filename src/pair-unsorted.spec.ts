@@ -1,11 +1,23 @@
 import "mocha";
 import { expect } from "chai";
+import { help } from "@valuer/help";
 
 import pairUnsorted from "./pair-unsorted";
 
+const inputArgsList: [ number[], number ][] = [
+	[ [1, 2, 3, 4], 8 ],
+	[ [4, 6, 1, 2], 8 ],
+];
+
+const outputs: boolean[] = [
+	false,
+	true,
+];
+
 describe("pair-unsorted", () => {
-	it("checks whether there is a pair of numbers in a given unsorted list, which sum is equal to a given sum", () => {
-		expect(pairUnsorted([ 1, 2, 3, 4 ], 8)).to.be.false;
-		expect(pairUnsorted([ 4, 6, 1, 2 ], 8)).to.be.true;
+	inputArgsList.forEach((inputArgs, index) => {
+		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(outputs[index]) }`, () => {
+			expect(pairUnsorted(...inputArgs)).to.equal(outputs[index]);
+		});
 	});
 });
