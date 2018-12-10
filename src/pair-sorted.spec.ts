@@ -4,22 +4,27 @@ import { help } from "@valuer/help";
 
 import pairSorted from "./pair-sorted";
 
-const inputArgsList: [ number[], number ][] = [
-	[ [1, 2, 3, 5], 6 ],
-	[ [1, 2, 3, 5], 8 ],
-	[ [1, 2, 3, 5], 9 ],
-];
-
-const outputs: boolean[] = [
-	true,
-	true,
-	false,
+const testCases: {
+	inputArgs: [ number[], number ];
+	output: boolean;
+}[] = [
+	{
+		inputArgs: [ [1, 2, 3, 5], 6 ],
+		output: true,
+	},
+	{
+		inputArgs: [ [1, 2, 3, 5], 8 ],
+		output: true,
+	},
+	{
+		inputArgs: [ [1, 2, 3, 5], 9 ],
+		output: false,
+	},
 ];
 
 describe("pair-sorted", () => {
-	inputArgsList.forEach((inputArgs, index) => {
-		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(outputs[index]) }`, () => {
-			expect(pairSorted(...inputArgs)).to.equal(outputs[index]);
+	for (const { inputArgs, output } of testCases)
+		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(output) }`, () => {
+			expect(pairSorted(...inputArgs)).to.equal(output);
 		});
-	});
 });

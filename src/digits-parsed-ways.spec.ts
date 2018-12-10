@@ -4,29 +4,35 @@ import { help } from "@valuer/help";
 
 import digitsParsedWays from "./digits-parsed-ways";
 
-type InputArgs = [ string ];
-type Output = number;
-
-const inputArgsList: InputArgs[] = [
-	[ "22222" ],
-	[ "12345" ],
-	[ "12340" ],
-	[ "98765" ],
-	[ "120" ],
-];
-
-const outputs: Output[] = [
-	8,
-	3,
-	0,
-	1,
-	1,
+const testCases: {
+	inputArgs: [ string ];
+	output: number;
+}[] = [
+	{
+		inputArgs: [ "22222" ],
+		output: 8,
+	},
+	{
+		inputArgs: [ "12345" ],
+		output: 3,
+	},
+	{
+		inputArgs: [ "12340" ],
+		output: 0,
+	},
+	{
+		inputArgs: [ "98765" ],
+		output: 1,
+	},
+	{
+		inputArgs: [ "120" ],
+		output: 1,
+	},
 ];
 
 describe("digits-parsed-ways", () => {
-	inputArgsList.forEach((inputArgs, index) => {
-		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(outputs[index]) }`, () => {
-			expect(digitsParsedWays(...inputArgs)).to.equal(outputs[index]);
+	for (const { inputArgs, output } of testCases)
+		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(output) }`, () => {
+			expect(digitsParsedWays(...inputArgs)).to.equal(output);
 		});
-	});
 });

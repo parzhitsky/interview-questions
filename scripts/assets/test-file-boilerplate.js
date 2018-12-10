@@ -1,35 +1,24 @@
-module.exports = (camel = "camelCaseIdentifier", kebab = "kebab-case-identifier") =>
+module.exports = (kebab = "kebab-case-identifier", camel = require("camelcase")(kebab)) =>
 `import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
 
 import ${ camel } from "./${ kebab }";
 
-// ***
-
-type InputArgs = [ unknown ]; // TODO: set type
-type Output = unknown; // TODO: set type
-
-const inputArgsList: InputArgs[] = [
+const testCases: {
+	inputArgs: [ unknown ]; // TODO: define
+	output: unknown; // TODO: define
+}[] = [
 	// TODO: add
 ];
-
-const outputs: Output[] = [
-	// TODO: add
-];
-
-// ***
 
 describe("${ kebab }", () => {
-	it("is covered with tests", () => {
-		expect(inputArgsList.length).to.not.equal(0);
-		expect(inputArgsList.length).to.equal(outputs.length);
-	});
+	if (!testCases.length)
+		it("lacks test coverage");
 
-	inputArgsList.forEach((inputArgs, index) => {
-		it(\`for (\${ help.getPrintableList(inputArgs, true) }) outputs \${ help.getPrintable(outputs[index]) }\`, () => {
-			expect(${ camel }(...inputArgs)).to.equal(outputs[index]);
+	else for (const { inputArgs, output } of testCases)
+		it(\`for (\${ help.getPrintableList(inputArgs, true) }) outputs \${ help.getPrintable(output) }\`, () => {
+			expect(${ camel }(...inputArgs)).to.equal(output);
 		});
-	});
 });
 `;

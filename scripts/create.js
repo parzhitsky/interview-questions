@@ -1,17 +1,15 @@
 const { valuer } = require("@valuer/main");
 
-const kebab = valuer(process.argv[2], "case name").as(/[a-z][-\w]*/i);
-const camel = require("camelcase")(kebab);
-const descr = process.argv[3];
+const kebab = String(valuer(process.argv[2], "case name").as(/[a-z][-\w]*/i)).toLowerCase();
 
 const files = [
 	{
 		filename: `./src/${ kebab }.ts`,
-		contents: (descr ? `/** ${ descr } */\n` : "") + `export default function ${ camel }() {\n\t// ...\n};\n`,
+		contents: require("./assets/main-file-boilerplate")(kebab, process.argv[3]),
 	},
 	{
 		filename: `./src/${ kebab }.spec.ts`,
-		contents: require("./assets/test-file-boilerplate")(camel, kebab),
+		contents: require("./assets/test-file-boilerplate")(kebab),
 	},
 ];
 
