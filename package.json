@@ -15,6 +15,7 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.1.4",
+    "@valuer/help": "^1.16.2",
     "@valuer/main": "^0.15.23",
     "camelcase": "^5.0.0",
     "chai": "^4.2.0",
