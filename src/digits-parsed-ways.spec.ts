@@ -33,6 +33,6 @@ const testCases: {
 describe("digits-parsed-ways", () => {
 	for (const { inputArgs, output } of testCases)
 		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(output) }`, () => {
-			expect(digitsParsedWays(...inputArgs)).to.equal(output);
+			expect(digitsParsedWays(...inputArgs)).to.deep.equal(output);
 		});
 });

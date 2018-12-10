@@ -25,6 +25,6 @@ const testCases: {
 describe("pair-sorted", () => {
 	for (const { inputArgs, output } of testCases)
 		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(output) }`, () => {
-			expect(pairSorted(...inputArgs)).to.equal(output);
+			expect(pairSorted(...inputArgs)).to.deep.equal(output);
 		});
 });

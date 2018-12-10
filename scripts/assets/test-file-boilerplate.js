@@ -18,7 +18,7 @@ describe("${ kebab }", () => {
 
 	else for (const { inputArgs, output } of testCases)
 		it(\`for (\${ help.getPrintableList(inputArgs, true) }) outputs \${ help.getPrintable(output) }\`, () => {
-			expect(${ camel }(...inputArgs)).to.equal(output);
+			expect(${ camel }(...inputArgs)).to.deep.equal(output);
 		});
 });
 `;
