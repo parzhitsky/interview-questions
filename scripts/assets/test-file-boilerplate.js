@@ -1,4 +1,4 @@
-module.exports = (kebab = "kebab-case-identifier", camel = require("camelcase")(kebab)) =>
+module.exports = (kebab = "kebab-case-identifier", descr = "", camel = require("camelcase")(kebab)) =>
 `import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
@@ -12,7 +12,7 @@ const testCases: {
 	// TODO: add
 ];
 
-describe("${ kebab }", () => {
+describe("${ kebab }${ descr ? `: ${ descr }` : "" }", () => {
 	if (!testCases.length)
 		it("lacks test coverage");
 

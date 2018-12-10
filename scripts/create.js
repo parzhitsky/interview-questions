@@ -1,15 +1,16 @@
 const { valuer } = require("@valuer/main");
 
-const kebab = String(valuer(process.argv[2], "case name").as(/[a-z][-\w]*/i)).toLowerCase();
+const kebab = String(valuer(process.argv[2], "case name").as(/^[a-z][-a-z]*$/i)).toLowerCase();
+const descr = process.argv[3];
 
 const files = [
 	{
 		filename: `./src/${ kebab }.ts`,
-		contents: require("./assets/main-file-boilerplate")(kebab, process.argv[3]),
+		contents: require("./assets/main-file-boilerplate")(kebab, descr),
 	},
 	{
 		filename: `./src/${ kebab }.spec.ts`,
-		contents: require("./assets/test-file-boilerplate")(kebab),
+		contents: require("./assets/test-file-boilerplate")(kebab, descr),
 	},
 ];
 
