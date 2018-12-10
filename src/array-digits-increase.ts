@@ -1,6 +1,6 @@
 /** increases a number represented by an array of digits by one */
 export default function arrayDigitsIncrease(digits: number[]): number[] {
-	const newDigits: number[] = [];
+	const newDigits: number[] = Array(digits.length);
 
 	if (digits.length) {
 		let shouldIncrease = true;
@@ -12,11 +12,7 @@ export default function arrayDigitsIncrease(digits: number[]): number[] {
 				newDigit++;
 
 			shouldIncrease = newDigit === 10;
-
-			if (shouldIncrease)
-				newDigits.unshift(0);
-
-			else newDigits.unshift(newDigit);
+			newDigits[index] = newDigit % 10;
 		}
 
 		if (shouldIncrease)
