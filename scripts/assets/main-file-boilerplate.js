@@ -1,5 +1,5 @@
-module.exports = (kebab = "kebab-case-identifier", descr = "") =>
-`${ descr ? `/** ${ descr } */\n` : "" }export default function ${ require("camelcase")(kebab) }(input?: unknown): unknown {
+module.exports = (kebab = "kebab-case-identifier", descr = "", camel = require("camelcase")(kebab)) =>
+`${ descr ? `/** ${ descr } */\n` : "" }export default function ${ camel }(input?: unknown): unknown {
 	// ...
 };
 `;
