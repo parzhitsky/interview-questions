@@ -16,6 +16,10 @@ const testCases: {
 		inputArgs: [ [4, 6, 1, 2], 8 ],
 		output: true,
 	},
+	{
+		inputArgs: [ [5, 2, 4, 7, 8, 2], 11 ],
+		output: true,
+	},
 ];
 
 describe("pair-unsorted: checks whether there is a pair of numbers in a given unsorted list, which sum is equal to a given sum", () => {

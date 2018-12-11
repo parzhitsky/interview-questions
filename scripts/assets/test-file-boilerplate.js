@@ -13,8 +13,8 @@ const testCases: {
 ];
 
 describe("${ kebab }${ descr ? `: ${ descr }` : "" }", () => {
-	if (!testCases.length)
-		it("lacks test coverage");
+	if (testCases.length < 3)
+		it("lacks proper test coverage");
 
 	else for (const { inputArgs, output } of testCases)
 		it(\`for (\${ help.getPrintableList(inputArgs, true) }) outputs \${ help.getPrintable(output) }\`, () => {
