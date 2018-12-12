@@ -39,36 +39,33 @@ export default function adjacentTiles(grid: Grid): number {
 	const excluded: Excluded = {};
 	const sizes = new MaxHeap();
 
-	function traverseSection(section: Section, start: Coords) {
+	function traverseSection(section: Section, start: Coords): Section {
 		const tileID = String(start);
 
-		if (excluded[tileID])
-			return;
+		if (!excluded[tileID]) {
+			excluded[tileID] = true;
+			section.tiles.push(start);
+	
+			for (const [ rowIndex, itemIndex ] of neighboursOf(start))
+				if (
+					rowIndex >= 0 &&
+					itemIndex >= 0 &&
+					rowIndex < grid.length &&
+					itemIndex < grid[rowIndex].length &&
+					grid[rowIndex][itemIndex] === section.color
+				)
+					traverseSection(section, [ rowIndex, itemIndex ]);
+		}
 
-		excluded[tileID] = true;
-		section.tiles.push(start);
-
-		for (const [ rowIndex, itemIndex ] of neighboursOf(start))
-			if (
-				rowIndex >= 0 &&
-				itemIndex >= 0 &&
-				rowIndex < grid.length &&
-				itemIndex < grid[rowIndex].length &&
-				grid[rowIndex][itemIndex] === section.color
-			)
-				traverseSection(section, [ rowIndex, itemIndex ]);
+		return section;
 	}
 
 	for (const [ row, rowIndex ] of entriesOf(grid))
 		for (const [ color, itemIndex ] of entriesOf(row)) {
-			const section: Section = {
-				color,
-				tiles: [],
-			};
+			const { tiles: { length: size } } =
+				traverseSection({ color, tiles: [] }, [ rowIndex, itemIndex ]);
 
-			traverseSection(section, [ rowIndex, itemIndex ]);
-
-			sizes.add(section.tiles.length);
+			sizes.add(size);
 		}
 
 	return sizes.max || 0;
