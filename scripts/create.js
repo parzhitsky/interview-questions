@@ -1,7 +1,7 @@
 const { valuer } = require("@valuer/main");
 
-const kebab = String(valuer(process.argv[2], "case name").as(/^[a-z][-a-z]*$/i)).toLowerCase();
-const descr = process.argv[3];
+const kebab = String(valuer(process.argv[2], "entity name").as(/^[a-z][-a-z]*$/i)).toLowerCase();
+const descr = valuer(process.argv[3], "entity description").as("string");
 
 const files = [
 	{
