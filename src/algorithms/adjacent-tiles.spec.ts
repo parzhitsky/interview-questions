@@ -47,18 +47,6 @@ const testCases: {
 		],
 		output: 7,
 	},
-	{
-		inputArgs: [
-			/* grid: */ [
-				/* row: */ [ Y, G, Y, G, B, R, B ],
-				/* row: */ [ B, R, Y, Y, B, Y, G ],
-				/* row: */ [ R, R, B, R, G, Y, R ],
-				/* row: */ [ G, Y, G, G, R, R, G ],
-				/* row: */ [ B, Y, R, B, R, Y, B ],
-			],
-		],
-		output: 7,
-	},
 ];
 
 describe("adjacent-tiles: on a given 2-dimensional grid, finds the biggest number of adjacent tiles of the same color", () => {

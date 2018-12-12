@@ -1,4 +1,4 @@
-import MaxHeap from "./structures/max-heap";
+import MaxHeap from "../structures/max-heap";
 
 export type Color = number;
 export type Grid = Color[][];
