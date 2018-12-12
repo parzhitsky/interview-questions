@@ -1,33 +1,34 @@
 /** @private */
-namespace MaxHeap {
-	export interface Comparable {
-		valueOf(): number | string;
-	}
+interface Comparable {
+	valueOf(): number | string;
+}
 
-	export interface Item<Value extends Comparable = number> {
-		value: Value;
-	}
+/** @private */
+interface Item<Value extends Comparable = number> {
+	value: Value;
+}
 
-	export interface Coords {
-		row: number;
-		col: number;
-	}
+/** @private */
+interface Coords {
+	row: number;
+	col: number;
 }
 
 /** describes binary heap structure with max value being made easy to retrieve */
-export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
-	private grid: MaxHeap.Item<Value>[][] = [];
+export default class MaxHeap<Value extends Comparable = number> {
+	private readonly grid: Item<Value>[][] = [[]];
+	private readonly maxCoords: Coords = { row: 0, col: 0 };
 
 	set max(value: Value | null) {
 		if (value == null)
 			return;
 
 		this.grid[0][0] = { value };
-		this.plumpDown({ row: 0, col: 0 });
+		this.sinkDown(this.maxCoords);
 	}
 
 	get max(): Value | null {
-		const item = this.getItem({ row: 0, col: 0 });
+		const item = this.getItem(this.maxCoords);
 
 		return item && item.value;
 	}
@@ -40,26 +41,22 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 	}
 
 	add(value: Value): this {
-		const item: MaxHeap.Item<Value> = { value };
+		const item: Item<Value> = { value };
 
-		const nextRowIndex = this.grid.length - 1; // empty grid is allowed
+		const nextRowIndex = this.grid.length - 1;
 		const nextRowCapacity = 2 ** nextRowIndex;
 		const nextRow = this.grid[nextRowIndex];
 
-		let row: number;
-		let col: number;
+		if (nextRow.length < nextRowCapacity)
+			this.bubbleUp({
+				row: nextRowIndex,
+				col: nextRow.push(item) - 1,
+			});
 
-		if (nextRow != null && nextRow.length < nextRowCapacity) {
-			row = nextRowIndex;
-			col = nextRow.push(item) - 1;
-		}
-
-		else {
-			row = this.grid.push([ item ]) - 1;
-			col = 0;
-		}
-
-		this.bubbleUp({ row, col });
+		else this.bubbleUp({
+			row: this.grid.push([ item ]) - 1,
+			col: 0,
+		});
 
 		return this;
 	}
@@ -76,15 +73,15 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 
 	// ***
 
-	private swap(a: MaxHeap.Item<Value>, b: MaxHeap.Item<Value>) {
+	private swap(a: Item<Value>, b: Item<Value>) {
 		[ a.value, b.value ] = [ b.value, a.value ];
 	}
 
-	private getItem({ row, col }: MaxHeap.Coords): MaxHeap.Item<Value> | null {
+	private getItem({ row, col }: Coords): Item<Value> | null {
 		return this.grid[row] ? this.grid[row][col] : null;
 	}
 
-	private getParentCoords(childCoords: MaxHeap.Coords): MaxHeap.Coords | null {
+	private getParentCoords(childCoords: Coords): Coords | null {
 		if (childCoords.row === 0 || this.getItem(childCoords) == null)
 			return null;
 
@@ -94,7 +91,7 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 		};
 	}
 
-	private getChildrenCoords(parentCoords: MaxHeap.Coords): [ MaxHeap.Coords, MaxHeap.Coords ] | null {
+	private getChildrenCoords(parentCoords: Coords): [ Coords, Coords ] | null {
 		if (parentCoords.row === this.grid.length - 1 || this.getItem(parentCoords) == null)
 			return null;
 
@@ -107,7 +104,7 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 		];
 	}
 
-	private bubbleUp(childCoords: MaxHeap.Coords) {
+	private bubbleUp(childCoords: Coords) {
 		const parentCoords = this.getParentCoords(childCoords);
 
 		if (!parentCoords)
@@ -123,7 +120,7 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 		this.bubbleUp(parentCoords);
 	}
 
-	private plumpDown(parentCoords: MaxHeap.Coords) {
+	private sinkDown(parentCoords: Coords) {
 		const childrenCoords = this.getChildrenCoords(parentCoords);
 
 		if (!childrenCoords)
@@ -138,7 +135,7 @@ export default class MaxHeap<Value extends MaxHeap.Comparable = number> {
 				continue;
 	
 			this.swap(parent, child);
-			this.plumpDown(childCoords);
+			this.sinkDown(childCoords);
 
 			break;
 		}
