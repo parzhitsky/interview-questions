@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { valuer } = require("@valuer/main");
 
 const etype = valuer(process.argv[2], "entity type").as([ "algorithm", "structure" ]);
