@@ -1,9 +1,9 @@
-module.exports = (kebab = "kebab-case-identifier", descr = "*no description*", camel = require("camelcase")(kebab)) =>
+module.exports =
 `import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
 
-import ${ camel } from "./${ kebab }";
+import #{CAMEL} from "./#{KEBAB}";
 
 const testCases: {
 	inputArgs: [ unknown ]; // TODO: define
@@ -12,13 +12,13 @@ const testCases: {
 	// TODO: add
 ];
 
-describe("${ kebab }: ${ descr }", () => {
+describe("#{KEBAB}: #{DESCR}", () => {
 	if (testCases.length < 3)
 		it("lacks proper test coverage");
 
 	else for (const { inputArgs, output } of testCases)
 		it(\`for (\${ help.getPrintableList(inputArgs, true) }) outputs \${ help.getPrintable(output) }\`, () => {
-			expect(${ camel }(...inputArgs)).to.deep.equal(output);
+			expect(#{CAMEL}(...inputArgs)).to.deep.equal(output);
 		});
 });
 `;
