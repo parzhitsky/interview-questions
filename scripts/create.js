@@ -10,9 +10,9 @@ const prepared = (
 	/** @type {string} */
 	contents,
 ) => contents
-	.replace("#{DESCR}", descr)
-	.replace("#{KEBAB}", kebab)
-	.replace("#{CAMEL}", camel);
+	.replace(/#\{DESCR\}/g, descr)
+	.replace(/#\{KEBAB\}/g, kebab)
+	.replace(/#\{CAMEL\}/g, camel);
 
 const files = [
 	{
