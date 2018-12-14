@@ -31,4 +31,8 @@ describe("max-heap: describes binary heap structure with max value being made ea
 	it ("is represented by the array [ 3, 1, 2, -1, 0 ]", () => {
 		expect(heap.toArray()).to.deep.equal([ 3, 1, 2, -1, 0 ]);
 	});
+
+	it ("when sorted, returns the array [ -1, 0, 1, 2, 3 ]", () => {
+		expect(heap.toArraySorted()).to.deep.equal([ -1, 0, 1, 2, 3 ]);
+	});
 });

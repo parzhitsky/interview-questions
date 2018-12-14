@@ -8,29 +8,41 @@ interface Item<Value extends Comparable = number> {
 	value: Value;
 }
 
+// ***
+
 /** @private */
-interface Coords {
-	row: number;
-	col: number;
+function* childrenIndexesOf(itemIndex: number) {
+	const doubled = itemIndex * 2;
+
+	yield doubled + 1;
+	yield doubled + 2;
 }
 
 /** describes binary heap structure with max value being made easy to retrieve */
 export default class MaxHeap<Value extends Comparable = number> {
-	private readonly grid: Item<Value>[][] = [[]];
-	private readonly maxCoords: Coords = { row: 0, col: 0 };
+	private readonly items: Item<Value>[] = [];
+
+	get size(): number {
+		return this.items.length;
+	}
 
 	set max(value: Value | null) {
-		if (value == null)
-			return;
+		if (value != null)
+			this.items[0] = { value };
 
-		this.grid[0][0] = { value };
-		this.sinkDown(this.maxCoords);
+		else if (this.size > 1)
+			this.items[0] = this.items.pop()!;
+
+		else this.items.pop();
+
+		if (this.size > 1)
+			this.sink(0);
 	}
 
 	get max(): Value | null {
-		const item = this.getItem(this.maxCoords);
+		const [ maxItem ] = this.items;
 
-		return item && item.value;
+		return maxItem && maxItem.value;
 	}
 
 	// ***
@@ -41,32 +53,23 @@ export default class MaxHeap<Value extends Comparable = number> {
 	}
 
 	add(value: Value): this {
-		const item: Item<Value> = { value };
-
-		const nextRowIndex = this.grid.length - 1;
-		const nextRowCapacity = 2 ** nextRowIndex;
-		const nextRow = this.grid[nextRowIndex];
-
-		if (nextRow.length < nextRowCapacity)
-			this.bubbleUp({
-				row: nextRowIndex,
-				col: nextRow.push(item) - 1,
-			});
-
-		else this.bubbleUp({
-			row: this.grid.push([ item ]) - 1,
-			col: 0,
-		});
+		this.float(this.items.push({ value }) - 1);
 
 		return this;
 	}
 
 	toArray(): Value[] {
-		const values: Value[] = [];
+		return this.items.map((item) => item.value);
+	}
 
-		for (const row of this.grid)
-			for (const { value } of row)
-				values.push(value);
+	toArraySorted(): Value[] {
+		const values: Value[] = Array(this.size);
+
+		while (this.size > 0) {
+			values[this.size - 1] = this.max!;
+
+			this.max = null;
+		}
 
 		return values;
 	}
@@ -77,67 +80,45 @@ export default class MaxHeap<Value extends Comparable = number> {
 		[ a.value, b.value ] = [ b.value, a.value ];
 	}
 
-	private getItem({ row, col }: Coords): Item<Value> | null {
-		return this.grid[row] ? this.grid[row][col] : null;
+	private getChildIndex(itemIndex: number): number | null {
+		let childIndex: number | null = null;
+
+		for (const candidateIndex of childrenIndexesOf(itemIndex))
+			if (candidateIndex < this.size && (childIndex == null || this.items[childIndex].value < this.items[candidateIndex].value))
+				childIndex = candidateIndex;
+
+		return childIndex;
 	}
 
-	private getParentCoords(childCoords: Coords): Coords | null {
-		if (childCoords.row === 0 || this.getItem(childCoords) == null)
-			return null;
-
-		return {
-			row: childCoords.row - 1,
-			col: Math.floor(childCoords.col / 2),
-		};
-	}
-
-	private getChildrenCoords(parentCoords: Coords): [ Coords, Coords ] | null {
-		if (parentCoords.row === this.grid.length - 1 || this.getItem(parentCoords) == null)
-			return null;
-
-		const row = parentCoords.row + 1;
-		const col = parentCoords.col * 2;
-
-		return [
-			{ row, col },
-			{ row, col: col + 1 },
-		];
-	}
-
-	private bubbleUp(childCoords: Coords) {
-		const parentCoords = this.getParentCoords(childCoords);
-
-		if (!parentCoords)
+	private float(itemIndex: number) {
+		if (itemIndex <= 0)
 			return;
 
-		const child = this.getItem(childCoords)!;
-		const parent = this.getItem(parentCoords);
+		const parentIndex = Math.floor((itemIndex - 1) / 2);
 
-		if (parent == null || child.value <= parent.value)
+		const item = this.items[itemIndex];
+		const parent = this.items[parentIndex];
+
+		if (item.value <= parent.value)
 			return;
 
-		this.swap(child, parent);
-		this.bubbleUp(parentCoords);
+		this.swap(item, parent);
+		this.float(parentIndex);
 	}
 
-	private sinkDown(parentCoords: Coords) {
-		const childrenCoords = this.getChildrenCoords(parentCoords);
+	private sink(itemIndex: number) {
+		const childIndex = this.getChildIndex(itemIndex);
 
-		if (!childrenCoords)
+		if (childIndex == null)
 			return;
 
-		const parent = this.getItem(parentCoords)!;
+		const item = this.items[itemIndex];
+		const child = this.items[childIndex];
 
-		for (const childCoords of childrenCoords) {
-			const child = this.getItem(childCoords);
+		if (child.value <= item.value)
+			return;
 
-			if (child == null || child.value <= parent.value)
-				continue;
-	
-			this.swap(parent, child);
-			this.sinkDown(childCoords);
-
-			break;
-		}
+		this.swap(child, item);
+		this.sink(childIndex);
 	}
 }
