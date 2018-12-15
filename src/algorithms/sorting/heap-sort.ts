@@ -1,6 +1,6 @@
 import MaxHeap from "../../structures/max-heap";
 
-/** sorts a given list of numbers using MaxHeap structure internally */
+/** sorts a given list of numbers using `MaxHeap` structure internally */
 export default function heapSort(input: number[]): number[] {
 	const heap = new MaxHeap(...input);
 
