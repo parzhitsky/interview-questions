@@ -20,4 +20,4 @@ export default function arrayDigitsIncrease(digits: number[]): number[] {
 	}
 
 	return newDigits;
-};
+}

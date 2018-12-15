@@ -69,4 +69,4 @@ export default function adjacentTiles(grid: Grid): number {
 		}
 
 	return sizes.max || 0;
-};
+}

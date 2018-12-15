@@ -19,4 +19,4 @@ export default function closestPoints(points: Point[], count: number): Point[] {
 			heap.max = point;
 
 	return heap.toArray().map(({ point }) => point);
-};
+}

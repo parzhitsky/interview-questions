@@ -18,4 +18,4 @@ export default function pairSorted(list: number[], sum: number): boolean {
 	}
 
 	return false;
-};
+}

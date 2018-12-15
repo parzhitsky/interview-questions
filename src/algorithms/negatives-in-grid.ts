@@ -14,4 +14,4 @@ export default function negativesInGrid(grid: Grid): number {
 	}
 
 	return total;
-};
+}

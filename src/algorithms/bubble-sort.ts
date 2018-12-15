@@ -8,4 +8,4 @@ export default function bubbleSort(list: number[]): number[] {
 				[ list[right - 1], list[right] ] = [ list[right], list[right - 1] ];
 
 	return list;
-};
+}

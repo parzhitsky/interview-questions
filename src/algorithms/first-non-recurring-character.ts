@@ -15,4 +15,4 @@ export default function firstNonRecurringCharacter(input: string): string {
 	}
 
 	return "";
-};
+}

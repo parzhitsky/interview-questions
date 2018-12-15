@@ -11,4 +11,4 @@ export default function firstRecurringCharacter(input: string): string {
 	}
 
 	return "";
-};
+}

@@ -9,4 +9,4 @@ export default function pairUnsorted(list: number[], sum: number): boolean {
 		else compliments.push(number);
 
 	return false;
-};
+}
