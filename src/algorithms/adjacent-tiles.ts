@@ -39,7 +39,7 @@ export default function adjacentTiles(grid: Grid): number {
 	const excluded: Excluded = {};
 	const sizes = new MaxHeap();
 
-	function traverseSection(section: Section, start: Coords): Section {
+	function traverseSection(section: Section, start: Coords) {
 		const tileID = String(start);
 
 		if (!excluded[tileID]) {
@@ -56,16 +56,15 @@ export default function adjacentTiles(grid: Grid): number {
 				)
 					traverseSection(section, [ rowIndex, itemIndex ]);
 		}
-
-		return section;
 	}
 
 	for (const [ row, rowIndex ] of entriesOf(grid))
 		for (const [ color, itemIndex ] of entriesOf(row)) {
-			const { tiles: { length: size } } =
-				traverseSection({ color, tiles: [] }, [ rowIndex, itemIndex ]);
+			const section: Section = { color, tiles: [] };
 
-			sizes.add(size);
+			traverseSection(section, [ rowIndex, itemIndex ]);
+
+			sizes.add(section.tiles.length);
 		}
 
 	return sizes.max || 0;
