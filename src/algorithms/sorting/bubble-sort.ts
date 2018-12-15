@@ -1,4 +1,4 @@
-/** sort a given list of numbers using BubbleSort technique */
+/** sorts a given list of numbers using BubbleSort technique */
 export default function bubbleSort(list: number[]): number[] {
 	const { length } = list;
 
