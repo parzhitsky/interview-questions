@@ -62,18 +62,6 @@ export default class MaxHeap<Value extends Comparable = number> {
 		return this.items.map((item) => item.value);
 	}
 
-	toArraySorted(): Value[] {
-		const values: Value[] = Array(this.size);
-
-		while (this.size > 0) {
-			values[this.size - 1] = this.max!;
-
-			this.max = null;
-		}
-
-		return values;
-	}
-
 	// ***
 
 	private swap(a: Item<Value>, b: Item<Value>) {
