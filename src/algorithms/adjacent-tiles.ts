@@ -21,12 +21,6 @@ type Excluded = Record<string, true>;
 // ***
 
 /** @private */
-function* entriesOf<T>(list: T[]) {
-	for (let i = 0; i < list.length; i++)
-		yield [ list[i], i ] as [ T, number ];
-}
-
-/** @private */
 function* neighboursOf([ rowIndex, itemIndex ]: Coords) {
 	yield <Coords> [ rowIndex - 1, itemIndex ]; // up
 	yield <Coords> [ rowIndex, itemIndex + 1 ]; // right
@@ -58,8 +52,8 @@ export default function adjacentTiles(grid: Grid): number {
 		}
 	}
 
-	for (const [ row, rowIndex ] of entriesOf(grid))
-		for (const [ color, itemIndex ] of entriesOf(row)) {
+	for (const [ rowIndex, row ] of grid.entries())
+		for (const [ itemIndex, color ] of row.entries()) {
 			const section: Section = { color, tiles: [] };
 
 			traverseSection(section, [ rowIndex, itemIndex ]);
