@@ -42,9 +42,9 @@ const testCases: {
 				{ name: "Alice", age: 37 },
 				{ name: "Alice", age: 19 },
 				{ name: "Daniel", age: 20 },
-				{ name: "Bob", age: 62 },
-				{ name: "Bob", age: 16 },
-				{ name: "Bob", age: 47 },
+				{ name: "Gwen", age: 62 },
+				{ name: "Gwen", age: 16 },
+				{ name: "Gwen", age: 47 },
 			],
 			(person: Person) => person.name,
 		],
@@ -56,10 +56,10 @@ const testCases: {
 			"Daniel": [
 				{ name: "Daniel", age: 20 },
 			],
-			"Bob": [
-				{ name: "Bob", age: 62 },
-				{ name: "Bob", age: 16 },
-				{ name: "Bob", age: 47 },
+			"Gwen": [
+				{ name: "Gwen", age: 62 },
+				{ name: "Gwen", age: 16 },
+				{ name: "Gwen", age: 47 },
 			],
 		}
 	},
