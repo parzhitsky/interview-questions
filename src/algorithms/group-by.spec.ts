@@ -48,16 +48,16 @@ const testCases: TestCase<InputArgs, Output>[] = [
 		],
 		output: {
 			"Alice": [
-				{ name: "Alice", age: 37 },
 				{ name: "Alice", age: 19 },
+				{ name: "Alice", age: 37 },
 			],
 			"Daniel": [
 				{ name: "Daniel", age: 20 },
 			],
 			"Gwen": [
-				{ name: "Gwen", age: 62 },
 				{ name: "Gwen", age: 16 },
 				{ name: "Gwen", age: 47 },
+				{ name: "Gwen", age: 62 },
 			],
 		}
 	},
