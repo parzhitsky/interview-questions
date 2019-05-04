@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import arrayDigitsIncrease, { InputArgs, Output } from "./array-digits-increase";
+import arrayDigitsIncrease, { InputArgs, Output } from "../../src/algorithms/array-digits-increase";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

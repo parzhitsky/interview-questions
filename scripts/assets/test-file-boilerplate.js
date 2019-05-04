@@ -2,9 +2,9 @@ module.exports =
 `import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import #{CAMEL}, { InputArgs, Output } from "./#{KEBAB}";
+import #{CAMEL}, { InputArgs, Output } from "../../src/#{ETYPE}s/#{KEBAB}";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	// TODO: add

@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import firstNonRecurringCharacter, { InputArgs, Output } from "./first-non-recurring-character";
+import firstNonRecurringCharacter, { InputArgs, Output } from "../../src/algorithms/first-non-recurring-character";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

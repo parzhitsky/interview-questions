@@ -10,6 +10,7 @@ const prepared = (
 	/** @type {string} */
 	contents,
 ) => contents
+	.replace(/#\{ETYPE\}/g, etype)
 	.replace(/#\{DESCR\}/g, descr)
 	.replace(/#\{KEBAB\}/g, kebab)
 	.replace(/#\{CAMEL\}/g, camel);
@@ -20,7 +21,7 @@ const files = [
 		contents: prepared(require("./assets/main-file-boilerplate")),
 	},
 	{
-		filename: `./src/${ etype }s/${ kebab }.spec.ts`,
+		filename: `./test/${ etype }s/${ kebab }.spec.ts`,
 		contents: prepared(require("./assets/test-file-boilerplate")),
 	},
 ];

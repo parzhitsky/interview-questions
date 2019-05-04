@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
 
-import LinkedList from "./linked-list";
+import LinkedList from "../../src/structures/linked-list";
 
 describe("linked-list: defines a list of values, each of which points to the next one (if any)", () => {
 	const list = new LinkedList(1, 2, 3, 4, 5);

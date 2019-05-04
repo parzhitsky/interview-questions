@@ -1,4 +1,4 @@
-import { TestCase } from "../../test-case";
+import { TestCase } from "../test-case";
 
 /** @private */
 type List = number[];
@@ -6,7 +6,7 @@ type List = number[];
 /** @private */
 type TestCase_ = TestCase<[ List ], List>;
 
-export function* testCases() {
+export function* getTestCases() {
 	yield <TestCase_> {
 		inputArgs: [ [5, 4, 1, 2, 9] ],
 		output: [ 1, 2, 4, 5, 9 ],

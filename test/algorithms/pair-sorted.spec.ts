@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import pairSorted, { InputArgs, Output } from "./pair-sorted";
+import pairSorted, { InputArgs, Output } from "../../src/algorithms/pair-sorted";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

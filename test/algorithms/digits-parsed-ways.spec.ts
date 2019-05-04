@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import digitsParsedWays, { InputArgs, Output } from "./digits-parsed-ways";
+import digitsParsedWays, { InputArgs, Output } from "../../src/algorithms/digits-parsed-ways";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

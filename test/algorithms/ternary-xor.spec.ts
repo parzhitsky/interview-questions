@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import ternaryXor, { InputArgs, Output } from "./ternary-xor";
+import ternaryXor, { InputArgs, Output } from "../../src/algorithms/ternary-xor";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

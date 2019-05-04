@@ -1,0 +1,6 @@
+{
+  "extends": "..",
+  "references": [
+    { "path": "../src" }
+  ]
+}

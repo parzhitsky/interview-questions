@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
 
-import MaxHeap from "./max-heap";
+import MaxHeap from "../../src/structures/max-heap";
 
 describe("max-heap: describes binary heap structure with max value being made easy to retrieve", () => {
 	const heap = new MaxHeap(1, 2, 3);

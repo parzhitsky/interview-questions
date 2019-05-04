@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import negativesInGrid, { InputArgs, Output } from "./negatives-in-grid";
+import negativesInGrid, { InputArgs, Output } from "../../src/algorithms/negatives-in-grid";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

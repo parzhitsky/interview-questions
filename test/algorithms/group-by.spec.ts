@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import groupBy, { InputArgs, Output } from "./group-by";
+import groupBy, { InputArgs, Output } from "../../src/algorithms/group-by";
 
 interface Person {
 	name: string;

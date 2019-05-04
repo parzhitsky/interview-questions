@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import closestPoints, { InputArgs, Output } from "./closest-points";
+import closestPoints, { InputArgs, Output } from "../../src/algorithms/closest-points";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	{

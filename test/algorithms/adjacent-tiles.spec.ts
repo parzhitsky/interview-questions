@@ -1,9 +1,9 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
-import { TestCase } from "../test-case";
+import { TestCase } from "./test-case";
 
-import adjacentTiles, { InputArgs, Output } from "./adjacent-tiles";
+import adjacentTiles, { InputArgs, Output } from "../../src/algorithms/adjacent-tiles";
 
 const [ R, G, B, Y ] = [ 1, 2, 3, 4 ];
 

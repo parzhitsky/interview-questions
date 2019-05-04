@@ -3,6 +3,7 @@
     "target": "es5",
     "module": "commonjs",
     "lib": [ "es2018" ],
+    "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true
