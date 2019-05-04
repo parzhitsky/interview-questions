@@ -16,7 +16,12 @@ function helper(input: string, length: number): number {
 	return result;
 }
 
+export type InputArgs = [ string ];
+export type Output = number;
+
 /** calculates number of ways the input might be parsed, given the map of number-to-letter pairs */
-export default function digitsParsedWays(input: string): number {
+export default function digitsParsedWays(...args: InputArgs): Output {
+	const [ input ] = args;
+
 	return helper(input, input.length);
 }

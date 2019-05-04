@@ -1,15 +1,13 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import adjacentTiles, { Grid, Color } from "./adjacent-tiles";
+import adjacentTiles, { InputArgs, Output } from "./adjacent-tiles";
 
-const [ R, G, B, Y ]: Color[] = [ 1, 2, 3, 4 ];
+const [ R, G, B, Y ] = [ 1, 2, 3, 4 ];
 
-const testCases: {
-	inputArgs: [ Grid ];
-	output: number;
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [
 			/* grid: */ [

@@ -1,13 +1,11 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import pairUnsorted from "./pair-unsorted";
+import pairUnsorted, { InputArgs, Output } from "./pair-unsorted";
 
-const testCases: {
-	inputArgs: [ number[], number ];
-	output: boolean;
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [ [1, 2, 3, 4], 8 ],
 		output: false,

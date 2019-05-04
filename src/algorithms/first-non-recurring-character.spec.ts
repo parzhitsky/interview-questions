@@ -1,13 +1,11 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import firstNonRecurringCharacter from "./first-non-recurring-character";
+import firstNonRecurringCharacter, { InputArgs, Output } from "./first-non-recurring-character";
 
-const testCases: {
-	inputArgs: [ string ];
-	output: string;
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [ "ABC" ],
 		output: "A",

@@ -1,5 +1,10 @@
+export type InputArgs = [ number[] ];
+export type Output = number[]
+
 /** increases a number represented by an array of digits by one */
-export default function arrayDigitsIncrease(digits: number[]): number[] {
+export default function arrayDigitsIncrease(...args: InputArgs): Output {
+	const [ digits ] = args;
+
 	const newDigits: number[] = Array(digits.length);
 
 	if (digits.length) {

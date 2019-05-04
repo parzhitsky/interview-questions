@@ -1,13 +1,11 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import digitsParsedWays from "./digits-parsed-ways";
+import digitsParsedWays, { InputArgs, Output } from "./digits-parsed-ways";
 
-const testCases: {
-	inputArgs: [ string ];
-	output: number;
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [ "22222" ],
 		output: 8,

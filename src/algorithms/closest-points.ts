@@ -1,9 +1,15 @@
 import MaxHeap from "../structures/max-heap";
 
-export type Point = [ number, number ];
+/** @private */
+type Point = [ number, number ];
+
+export type InputArgs = [ Point[], number ];
+export type Output = Point[];
 
 /** from a set of points, finds n closest ones to the origin */
-export default function closestPoints(points: Point[], count: number): Point[] {
+export default function closestPoints(...args: InputArgs): Output {
+	const [ points, count ] = args;
+
 	const pointsEvaluable = points.map((point) => ({
 		point,
 		valueOf: () => Math.sqrt(point[0] ** 2 + point[1] ** 2),

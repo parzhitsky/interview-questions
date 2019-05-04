@@ -1,6 +1,11 @@
+export type InputArgs = [ any[], (item: any) => string ];
+export type Output = Record<string, any[]>;
+
 /** Groups items in the list by a given grouper */
-export default function groupBy<Item, GroupKey extends string = string>(items: Item[], grouper: (item: Item) => GroupKey): Record<GroupKey, Item[]> {
-	const map = {} as Record<GroupKey, Item[]>;
+export default function groupBy(...args: InputArgs): Output {
+	const [ items, grouper ] = args;
+
+	const map = {} as Output;
 
 	for (const item of items) {
 		const groupKey = grouper(item);

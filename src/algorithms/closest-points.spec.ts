@@ -1,13 +1,11 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import closestPoints, { Point } from "./closest-points";
+import closestPoints, { InputArgs, Output } from "./closest-points";
 
-const testCases: {
-	inputArgs: [ Point[], number ];
-	output: Point[];
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [ [], 10 ],
 		output: [],

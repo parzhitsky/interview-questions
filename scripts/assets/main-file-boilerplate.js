@@ -1,6 +1,11 @@
 module.exports =
-`/** #{DESCR} */
-export default function #{CAMEL}(input: unknown): unknown {
+`export type InputArgs = [ unknown ];
+export type Output = unknown;
+
+/** #{DESCR} */
+export default function #{CAMEL}(...args: InputArgs): Output {
+	const [ input ] = args;
+
 	// ...
 }
 `;

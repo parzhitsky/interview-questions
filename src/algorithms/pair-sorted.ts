@@ -1,5 +1,10 @@
+export type InputArgs = [ number[], number ];
+export type Output = boolean;
+
 /** checks whether there is a pair of numbers in a given sorted list, which sum is equal to a given sum */
-export default function pairSorted(list: number[], sum: number): boolean {
+export default function pairSorted(...args: InputArgs): Output {
+	const [ list, sum ] = args;
+
 	const indexes: [ number, number ] = [
 		0,
 		list.length - 1,

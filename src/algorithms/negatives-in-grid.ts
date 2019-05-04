@@ -1,7 +1,13 @@
-export type Grid = number[][];
+/** @private */
+type Grid = number[][];
+
+export type InputArgs = [ Grid ];
+export type Output = number;
 
 /** in a given row-and-column-wise-sorted grid, finds total amount of negative numbers */
-export default function negativesInGrid(grid: Grid): number {
+export default function negativesInGrid(...args: InputArgs): Output {
+	const [ grid ] = args;
+
 	let total = 0;
 
 	for (const row of grid) {

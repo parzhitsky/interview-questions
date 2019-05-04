@@ -1,13 +1,11 @@
 import "mocha";
 import { expect } from "chai";
 import { help } from "@valuer/help";
+import { TestCase } from "../test-case";
 
-import arrayDigitsIncrease from "./array-digits-increase";
+import arrayDigitsIncrease, { InputArgs, Output } from "./array-digits-increase";
 
-const testCases: {
-	inputArgs: [ number[] ];
-	output: number[];
-}[] = [
+const testCases: TestCase<InputArgs, Output>[] = [
 	{
 		inputArgs: [ [] ],
 		output: [],

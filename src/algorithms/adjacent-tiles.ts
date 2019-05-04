@@ -28,8 +28,13 @@ function* neighboursOf([ rowIndex, itemIndex ]: Coords) {
 	yield <Coords> [ rowIndex, itemIndex - 1 ]; // left
 }
 
+export type InputArgs = [ Grid ];
+export type Output = number;
+
 /** on a given 2-dimensional grid, finds the biggest number of adjacent tiles of the same color */
-export default function adjacentTiles(grid: Grid): number {
+export default function adjacentTiles(...args: InputArgs): Output {
+	const [ grid ] = args;
+
 	const excluded: Excluded = {};
 	const sizes = new MaxHeap();
 
