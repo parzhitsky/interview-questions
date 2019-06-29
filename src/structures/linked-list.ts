@@ -6,18 +6,13 @@ interface Node<Value> {
 
 /** defines a list of values, each of which points to the next one (if any) */
 export default class LinkedList<Value = any> {
-	head: Node<Value> | null = null;
+	private head: Node<Value> | null = null;
 
 	get size(): number {
 		let result = 0;
 
-		let current = this.head;
-
-		while (current) {
-			result++;
-
+		for (let current = this.head; current != null; result++)
 			current = current.next;
-		}
 
 		return result;
 	}
