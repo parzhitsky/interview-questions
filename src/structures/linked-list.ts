@@ -1,18 +1,30 @@
 /** @private */
 interface Node<Value> {
 	value: Value;
-	next: Node<Value> | null;
+	next: NodeRaw<Value>;
 }
+
+/** @private */
+type NodeRaw<Value> = Node<Value> | null;
 
 /** defines a list of values, each of which points to the next one (if any) */
 export default class LinkedList<Value = any> {
-	private head: Node<Value> | null = null;
+	private head: NodeRaw<Value> = null;
+
+	private get tail(): NodeRaw<Value> {
+		let tail: NodeRaw<Value> = null;
+
+		for (const node of this.nodes())
+			tail = node;
+
+		return tail;
+	}
 
 	get size(): number {
 		let result = 0;
 
-		for (let current = this.head; current != null; result++)
-			current = current.next;
+		for (const _ of this.nodes())
+			result++;
 
 		return result;
 	}
@@ -25,45 +37,34 @@ export default class LinkedList<Value = any> {
 	}
 
 	append(value: Value): void {
-		const node: Node<Value> = { value, next: null };
+		const { tail } = this;
 
-		if (this.head == null) {
-			this.head = node;
+		if (tail)
+			tail.next = { value, next: null };
 
-			return;
-		}
-
-		let last: Node<Value> = this.head;
-
-		while (last.next)
-			last = last.next;
-
-		last.next = node;
+		else this.prepend(value);
 	}
 
 	prepend(value: Value): void {
 		this.head = { value, next: this.head };
 	}
 
-	remove(value: Value): void {
-		if (this.head == null)
-			return;
-
-		if (this.head.value === value) {
-			this.head = this.head.next;
-			return;
-		}
-
-		for (let current = this.head; current.next != null; current = current.next)
-			if (current.next.value === value) {
-				current.next = current.next.next;
+	remove(isTarget: (value: Value) => boolean): void {
+		for (const node of this.nodes())
+			if (node.next && isTarget(node.next.value)) {
+				node.next = node.next.next;
 
 				break;
 			}
 	}
 
-	*values() {
-		for (let current = this.head; current != null; current = current.next)
-			yield current.value;
+	*values(): IterableIterator<Value> {
+		for (const node of this.nodes())
+			yield node.value;
+	}
+
+	private *nodes(): IterableIterator<Node<Value>> {
+		for (let node = this.head; node != null; node = node.next)
+			yield node;
 	}
 }

@@ -19,7 +19,7 @@ describe("linked-list: defines a list of values, each of which points to the nex
 	});
 
 	it("supports removing elements", () => {
-		list.remove(3);
+		list.remove((value) => value === 3);
 
 		expect([ ...list.values() ]).to.deep.equal([ 7, 1, 2, 4, 5, 6 ]);
 	});
