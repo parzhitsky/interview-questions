@@ -1,10 +1,12 @@
 #!/usr/bin/env node
+const { existsSync: exists } = require("fs");
+const camelcase = require("camelcase");
 const { valuer } = require("@valuer/main");
 
 const etype = valuer(process.argv[2], "entity type").as([ "algorithm", "structure" ]);
 const kebab = valuer(process.argv[3], "entity name").as(/^[a-z][-a-z]*$/);
 const descr = valuer(process.argv[4], "entity description").as("string");
-const camel = require("camelcase")(kebab);
+const camel = camelcase(kebab);
 
 const prepared = (
 	/** @type {string} */
@@ -26,15 +28,10 @@ const files = [
 	},
 ];
 
-const fs = require("fs");
-const exists = require("util").promisify(fs.exists);
+for (const { filename, contents } of files)
+	if (exists(filename))
+		console.warn(`[WARN]: File "${ filename }" already exists!`);
 
-void async function main() {
-	for (const { filename, contents } of files)
-		if (await exists(filename))
-			console.warn(`[WARN]: File "${ filename }" already exists!`);
-
-		else fs.writeFile(filename, contents, () => {
-			console.warn(`[INFO]: File "${ filename }" has been created`);
-		});
-}();
+	else fs.writeFile(filename, contents, () => {
+		console.warn(`[INFO]: File "${ filename }" has been created`);
+	});
