@@ -7,7 +7,8 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha -r ./node_modules/ts-node/register ./test/**/*.spec.ts",
     "build": "tsc --build src",
-    "start": "npx ts-node index"
+    "start": "npx ts-node index",
+    "create": "node scripts/create"
   },
   "author": "",
   "license": "MIT",
@@ -26,8 +27,5 @@
     "@types/chai": "4.1.7",
     "@types/mocha": "5.2.5",
     "@types/node": "10.1.4"
-  },
-  "bin": {
-    "create": "./scripts/create.js"
   }
 }
