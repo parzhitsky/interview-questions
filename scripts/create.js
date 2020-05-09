@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const { existsSync: exists } = require("fs");
+const { red } = require("chalk");
 const { valuer } = require("@valuer/main");
 const read = require("./read");
 const write = require("./write");
@@ -19,11 +20,11 @@ for (const dir in files) {
 	const filepath = `./${ dir }/${ filename + extention }`;
 
 	if (exists(filepath))
-		console.warn(`[WARN]: File "${ filepath }" already exists!`);
+		console.warn(red(`[WARN]: File "${ filepath }" already exists!`));
 
 	else {
 		write(filepath, read(`./scripts/assets/${ dir }.ts.template`, etype, ename));
 
-		console.warn(`[INFO]: File "${ filepath }" has been created`);
+		console.log(`[INFO]: File "${ filepath }" has been created`);
 	}
 }

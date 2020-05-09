@@ -1,23 +1,20 @@
 import "mocha";
 import { expect } from "chai";
-// @ts-ignore
 import { help } from "@valuer/help";
-// @ts-ignore
 import { TestCase } from "./test-case";
 
-// @ts-ignore
-import $CAMEL$, { InputArgs, Output } from "../../src/$ETYPE$s/$ENAME$";
+import __CAMEL__, { InputArgs, Output } from "../../src/__ETYPE__s/__ENAME__";
 
 const testCases: TestCase<InputArgs, Output>[] = [
 	// TODO: add
 ];
 
-describe("$ENAME$: $DESCR$", () => {
+describe("__ENAME__: __DESCR__", () => {
 	if (testCases.length < 3)
 		it("lacks proper test coverage");
 
 	else for (const { inputArgs, output } of testCases)
 		it(`for (${ help.getPrintableList(inputArgs, true) }) outputs ${ help.getPrintable(output) }`, () => {
-			expect($CAMEL$(...inputArgs)).to.deep.equal(output);
+			expect(__CAMEL__(...inputArgs)).to.deep.equal(output);
 		});
 });
