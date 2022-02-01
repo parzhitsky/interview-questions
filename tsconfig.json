@@ -5,6 +5,8 @@
     "lib": [ "esnext" ],
     "outDir": "./dist",
     "strict": true,
+    "strictNullChecks": true,
+    "checkJs": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
   },
