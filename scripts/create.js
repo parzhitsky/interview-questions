@@ -1,13 +1,19 @@
 #!/usr/bin/env node
-const { existsSync: exists } = require("fs");
+const { existsSync: exists, writeFileSync: write } = require("fs");
 const { resolve } = require("path");
 const { valuer } = require("@valuer/main");
 const { warn, info } = require("./log");
-const read = require("./read");
-const write = require("./write");
+const { default: cloneTemplate, TemplateNotFoundError } = require("./clone-template");
 
 const etype = valuer(process.argv[2], "entity type").as([ "algorithm", "structure" ]);
 const ename = valuer(process.argv[3], "entity name").as(/^[a-z][-a-z]*$/);
+const descr = valuer(process.argv[4], "entity description").as("string");
+
+const substitutions = {
+	entityType: String(etype),
+	entityName: String(ename),
+	description: String(descr),
+};
 
 const codeTypes = [
 	{
@@ -21,19 +27,22 @@ const codeTypes = [
 ];
 
 for (const { dir, ext } of codeTypes) {
-	const templatePath = resolve(__dirname, "assets", `${etype}.${dir}.template`);
-	const codeFilePath = resolve(__dirname, "..", dir, `${etype}s/${ename + ext}`);
+	const { entityType, entityName } = substitutions;
+	const codeFilePath = resolve(__dirname, "..", dir, `${entityType}s/${entityName + ext}`);
 
-	if (!exists(templatePath))
-		warn(`No "${dir}" template found for "${etype}" files!`);
-
-	else if (exists(codeFilePath))
+	if (exists(codeFilePath))
 		warn(`File already exists: "${codeFilePath}"`);
 
-	else {
-		const content = read(templatePath, etype, ename);
+	else
+		try {
+			const contents = cloneTemplate(entityType, dir, substitutions);
+			write(codeFilePath, contents, "utf8");
+			info(`Wrote file: "${codeFilePath}"`);
+		} catch (caught) {
+			if (caught instanceof TemplateNotFoundError)
+				warn(caught.message);
 
-		write(codeFilePath, content);
-		info(`Wrote file: "${codeFilePath}"`);
-	}
+			else
+				throw caught;
+		}
 }
