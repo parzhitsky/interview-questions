@@ -1,9 +1,0 @@
-export type InputArgs = [ unknown ];
-export type Output = unknown;
-
-/** __DESCR__ */
-export default function __CAMEL__(...args: InputArgs): Output {
-	const [ input ] = args;
-
-	// ...
-}

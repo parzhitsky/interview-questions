@@ -1,6 +1,7 @@
-const { readFileSync } = require("fs");
 const camel = require("camelcase");
 const { valuer } = require("@valuer/main");
+const { readFileSync } = require("fs");
+const PathNotAbsoluteError = require("./path-not-absolute-error");
 
 /** @private */
 const ETYPE = /__ETYPE__/g;
@@ -19,9 +20,12 @@ const DESCR = /__DESCR__/g;
  * @param {string} etype
  * @param {string} ename
  */
-module.exports = (path, etype, ename) => readFileSync(path, "utf8")
-	.replace(ETYPE, etype)
-	.replace(ENAME, ename)
-	.replace(CAMEL, camel(ename))
-	.replace(DESCR, valuer(process.argv[4], "entity description").as("string"))
-	;
+module.exports = (path, etype, ename) => {
+	PathNotAbsoluteError.assert(path);
+
+	return readFileSync(path, "utf8")
+		.replace(ETYPE, etype)
+		.replace(ENAME, ename)
+		.replace(CAMEL, camel(ename))
+		.replace(DESCR, valuer(process.argv[4], "entity description").as("string"));
+};
