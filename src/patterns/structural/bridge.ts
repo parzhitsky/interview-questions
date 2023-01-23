@@ -10,6 +10,13 @@ abstract class AudioOutput {
   }
 
   public set volume(newValue) {
+    const newVolume = Math.min(Math.max(0, newValue), this.maxVolume)
+
+    if (newVolume === this.volume) {
+      console.log(`Cannot change ${this.constructor.name} volume: new value (${newValue}) is out of bounds (0-${this.maxVolume})`)
+      return
+    }
+
     console.log(`${this.constructor.name} volume is changed from ${this._volume} to ${newValue}`)
 
     this._volume = newValue
@@ -17,27 +24,16 @@ abstract class AudioOutput {
 }
 
 class AudioController {
-  private volumeBeforeMuted: number | undefined
+  private volumeBeforeMuted: number | null = null
 
   constructor(private readonly output: AudioOutput) {}
 
-  private setVolume(newValue: number): void {
-    const newVolume = Math.min(Math.max(0, newValue), this.output.maxVolume)
-
-    if (newVolume === this.output.volume) {
-      console.log(`Cannot change ${this.output.constructor.name} volume: new value (${newValue}) is out of bounds (0-${this.output.maxVolume})`)
-      return
-    }
-
-    this.output.volume = newVolume
-  }
-
   volumeUp(): void {
-    this.setVolume(this.output.volume + 1)
+    this.output.volume += 1
   }
 
   volumeDown(): void {
-    this.setVolume(this.output.volume - 1)
+    this.output.volume -= 1
   }
 
   mute(): void {
@@ -48,8 +44,9 @@ class AudioController {
   unmute(): void {
     if (this.volumeBeforeMuted != null) {
       this.output.volume = this.volumeBeforeMuted
+      this.volumeBeforeMuted = null
     } else {
-      console.log(`Cannot unmute ${this.output.constructor.name}: it is not muted`)
+      console.log(`Cannot unmute ${this.output.constructor.name}: output device is not muted`)
     }
   }
 }
