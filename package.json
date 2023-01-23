@@ -20,7 +20,7 @@
     "chalk": "2.4.1",
     "mocha": "7.1.1",
     "ts-node": "7.0.1",
-    "typescript": "4.5.5"
+    "typescript": "4.9.4"
   },
   "devDependencies": {
     "@types/camelcase": "4.1.0",
