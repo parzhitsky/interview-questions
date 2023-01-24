@@ -5,15 +5,19 @@ interface Message {
 }
 
 abstract class Adapter<Input, Output> {
-  abstract adapt(input: Input): Output
+  constructor(protected readonly input: Input) {}
+
+  abstract adapt(): Output
 }
 
 abstract class ToMessageAdapter<Input> extends Adapter<Input, Message> {
-  protected abstract createBody(input: Input): string
+  protected readonly body = this.createBody()
 
-  override adapt(input: Input): Message {
+  protected abstract createBody(): string
+
+  override adapt(): Message {
     return {
-      body: this.createBody(input),
+      body: this.body,
     }
   }
 }
@@ -31,20 +35,20 @@ class Movie {
 }
 
 class PersonToMessageAdapter extends ToMessageAdapter<Person> {
-  protected override createBody(person: Person): string {
-    return `${person.name}, ${person.age} y.o.`
+  protected override createBody(): string {
+    return `${this.input.name}, ${this.input.age} y.o.`
   }
 }
 
 class MoneyToMessageAdapter extends ToMessageAdapter<Money> {
-  protected override createBody(money: Money): string {
-    return `${money.amount} ${money.currencyCode}`
+  protected override createBody(): string {
+    return `${this.input.amount} ${this.input.currencyCode}`
   }
 }
 
 class MovieToMessageAdapter extends ToMessageAdapter<Movie> {
-  protected override createBody(movie: Movie): string {
-    return `"${movie.title}" by ${movie.director}`
+  protected override createBody(): string {
+    return `"${this.input.title}" by ${this.input.director}`
   }
 }
 
@@ -52,23 +56,27 @@ class Chat {
   sendMessage(message: Message): void {
     console.log(`Sent message: "${message.body}"`)
   }
-
-  sendMessageViaAdapter<Input>(adapter: Adapter<Input, Message>, input: Input): void {
-    const message = adapter.adapt(input)
-
-    this.sendMessage(message)
-  }
 }
 
 const chat = new Chat()
 
-const personToMessageAdapter = new PersonToMessageAdapter()
-const moneyToMessageAdapter = new MoneyToMessageAdapter()
+chat.sendMessage(
+  new MoneyToMessageAdapter(
+    new Money(1000, 'USD'),
+  )
+    .adapt(),
+)
 
-chat.sendMessageViaAdapter(moneyToMessageAdapter, new Money(1000, 'USD'))
-chat.sendMessageViaAdapter(personToMessageAdapter, new Person('Jake', 32))
+chat.sendMessage(
+  new PersonToMessageAdapter(
+    new Person('Jake', 32),
+  )
+    .adapt(),
+)
 
-const movieMessage = new MovieToMessageAdapter()
-  .adapt(new Movie('Titanic', 'James Cameron'))
-
-chat.sendMessage(movieMessage)
+chat.sendMessage(
+  new MovieToMessageAdapter(
+    new Movie('Titanic', 'James Cameron'),
+  )
+    .adapt(),
+)
