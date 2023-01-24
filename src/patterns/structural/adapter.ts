@@ -8,7 +8,15 @@ abstract class Adapter<Input, Output> {
   abstract adapt(input: Input): Output
 }
 
-abstract class ToMessageAdapter<Input> extends Adapter<Input, Message> {}
+abstract class ToMessageAdapter<Input> extends Adapter<Input, Message> {
+  protected abstract createBody(input: Input): string
+
+  override adapt(input: Input): Message {
+    return {
+      body: this.createBody(input),
+    }
+  }
+}
 
 class Person {
   constructor(public readonly name: string, public readonly age: number) {}
@@ -23,26 +31,20 @@ class Movie {
 }
 
 class PersonToMessageAdapter extends ToMessageAdapter<Person> {
-  adapt(person: Person): Message {
-    return {
-      body: `${person.name}, ${person.age} y.o.`,
-    }
+  protected override createBody(person: Person): string {
+    return `${person.name}, ${person.age} y.o.`
   }
 }
 
 class MoneyToMessageAdapter extends ToMessageAdapter<Money> {
-  adapt(money: Money): Message {
-    return {
-      body: `${money.amount} ${money.currencyCode}`,
-    }
+  protected override createBody(money: Money): string {
+    return `${money.amount} ${money.currencyCode}`
   }
 }
 
 class MovieToMessageAdapter extends ToMessageAdapter<Movie> {
-  adapt(movie: Movie): Message {
-    return {
-      body: `"${movie.title}" by ${movie.director}`,
-    }
+  protected override createBody(movie: Movie): string {
+    return `"${movie.title}" by ${movie.director}`
   }
 }
 
