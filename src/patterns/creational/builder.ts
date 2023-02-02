@@ -1,17 +1,17 @@
 export {}
 
-abstract class Named {
+abstract class HousePart {
   readonly name = this.constructor.name
 }
 
-abstract class HousePart extends Named {}
-
 class Fence extends HousePart {}
+
 class SwimmingPool extends HousePart {}
+
 class Porch extends HousePart {}
 
-class House extends Named {
-  private parts: HousePart[] = []
+class House {
+  private readonly parts: HousePart[] = []
 
   addPart(part: HousePart): void {
     this.parts.push(part)
@@ -21,7 +21,7 @@ class House extends Named {
 class HouseBuilder {
   private built = false
 
-  constructor(private house = new House()) {}
+  constructor(private readonly house = new House()) {}
 
   addPart(part: HousePart): this {
     this.house.addPart(part)
