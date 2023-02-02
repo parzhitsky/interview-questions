@@ -9,17 +9,15 @@ abstract class AudioOutput {
     return this._volume
   }
 
-  public set volume(newValue) {
-    const newVolume = Math.min(Math.max(0, newValue), this.maxVolume)
-
-    if (newVolume === this.volume) {
-      console.log(`Cannot change ${this.constructor.name} volume: new value (${newValue}) is out of bounds (0-${this.maxVolume})`)
+  public set volume(newVolume) {
+    if (newVolume < 0 || newVolume > this.maxVolume) {
+      console.log(`Cannot change ${this.constructor.name} volume: new value (${newVolume}) is out of bounds (0-${this.maxVolume})`)
       return
     }
 
-    console.log(`${this.constructor.name} volume is changed from ${this._volume} to ${newValue}`)
+    console.log(`${this.constructor.name} volume is changed from ${this._volume} to ${newVolume}`)
 
-    this._volume = newValue
+    this._volume = newVolume
   }
 }
 
@@ -54,7 +52,7 @@ class AudioController {
 class Speakers extends AudioOutput {}
 
 class HeadPhones extends AudioOutput {
-  override maxVolume = 80
+  override readonly maxVolume: number = 80
 }
 
 const speakersController = new AudioController(new Speakers())
