@@ -1,8 +1,6 @@
 export {}
 
-abstract class HousePart {
-  readonly name = this.constructor.name
-}
+abstract class HousePart {}
 
 class Fence extends HousePart {}
 
@@ -11,11 +9,9 @@ class SwimmingPool extends HousePart {}
 class Porch extends HousePart {}
 
 class House {
-  private readonly parts: HousePart[] = []
-
-  addPart(part: HousePart): void {
-    this.parts.push(part)
-  }
+  public fence?: Fence
+  public swimmingPool?: SwimmingPool
+  public porch?: Porch
 }
 
 class HouseBuilder {
@@ -23,8 +19,20 @@ class HouseBuilder {
 
   constructor(private readonly house = new House()) {}
 
-  addPart(part: HousePart): this {
-    this.house.addPart(part)
+  setFence(fence: Fence): this {
+    this.house.fence = fence
+
+    return this
+  }
+
+  setSwimmingPool(swimmingPool: SwimmingPool): this {
+    this.house.swimmingPool = swimmingPool
+
+    return this
+  }
+
+  setPorch(porch: Porch): this {
+    this.house.porch = porch
 
     return this
   }
@@ -44,34 +52,34 @@ export const house1: House = new House()
 export const house2: House = new HouseBuilder().build()
 
 export const houseWithFence: House = new HouseBuilder()
-  .addPart(new Fence())
+  .setFence(new Fence())
   .build()
 
 export const houseWithPool: House = new HouseBuilder()
-  .addPart(new SwimmingPool())
+  .setSwimmingPool(new SwimmingPool())
   .build()
 
 export const houseWithPorch: House = new HouseBuilder()
-  .addPart(new Porch())
+  .setPorch(new Porch())
   .build()
 
 export const houseWithFenceAndPool: House = new HouseBuilder()
-  .addPart(new Fence())
-  .addPart(new SwimmingPool())
+  .setFence(new Fence())
+  .setSwimmingPool(new SwimmingPool())
   .build()
 
 export const houseWithPoolAndPorch: House = new HouseBuilder()
-  .addPart(new SwimmingPool())
-  .addPart(new Porch())
+  .setSwimmingPool(new SwimmingPool())
+  .setPorch(new Porch())
   .build()
 
 export const houseWithPorchAndFence: House = new HouseBuilder()
-  .addPart(new Porch())
-  .addPart(new Fence())
+  .setPorch(new Porch())
+  .setFence(new Fence())
   .build()
 
 export const houseWithFenceAndPoolAndPorch: House = new HouseBuilder()
-  .addPart(new Fence())
-  .addPart(new SwimmingPool())
-  .addPart(new Porch())
+  .setFence(new Fence())
+  .setSwimmingPool(new SwimmingPool())
+  .setPorch(new Porch())
   .build()
