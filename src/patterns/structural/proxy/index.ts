@@ -1,44 +1,40 @@
-export {}
+import { randomUUID } from 'crypto'
+import { createInterface } from 'readline'
 
-function randomFloat(max = 1, min = 0): number {
-  return Math.random() * (max - min) + min
+function randomInt(max = 1, min = 0): number {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
-function randomInt(max?: number, min?: number): number {
-  return Math.floor(randomFloat(max, min))
-}
-
-function delay(msec = 1000): Promise<void> {
+function delay(msec: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, msec))
 }
 
-interface AddNumberCommand {
-  readonly operand: number
+class AddNumberCommand {
+  readonly id = randomUUID()
+  readonly description = `${this.id} ${this.payload}`
+
+  constructor(public readonly payload: number) {}
 }
 
 class Account {
-  constructor(public readonly currencyCode: string, private amount = 0) {}
+  constructor(public balance = 0) {}
 
-  toString(): string {
-    return `${this.amount} ${this.currencyCode}`
-  }
+  async addAmount(amount: number): Promise<void> {
+    const nextBalance = this.balance + amount
 
-  async addAmount(command: AddNumberCommand): Promise<void> {
-    const nextAmount = this.amount + command.operand
-    const rejected = nextAmount < 0
-    const operandMagnitude = Math.abs(command.operand)
-    const operationName = command.operand > 0 ? 'Add ' : 'Withdraw '
-    const rejection = rejected ? '-- (REJECTED: LOW BALANCE) ' : ''
-
-    console.log(`\t${rejection + operationName + operandMagnitude} ${this.currencyCode}`)
-
-    if (rejected) {
-      return
+    if (nextBalance < 0) {
+      throw new AccountBalanceTooLowError(this.balance)
     }
 
-    await delay(randomInt(500)) // wait up to 500 msec to imitate true asynchronicity
+    await delay(randomInt(1000, 500)) // wait 0.5 to 1 sec to imitate true asynchronicity
 
-    this.amount = nextAmount
+    this.balance = nextBalance
+  }
+}
+
+class AccountBalanceTooLowError extends Error {
+  constructor(public readonly balance: number) {
+    super(`Cannot perform command: balance is too low (${balance})`)
   }
 }
 
@@ -46,43 +42,61 @@ class Queue<Item> {
   private readonly items: Item[] = []
   private nextIndex = 0
 
+  get count(): number {
+    return this.items.length - this.nextIndex
+  }
+
   enqueue(item: Item): void {
     this.items.push(item)
   }
 
+  peakNext(): Item | undefined {
+    return this.items[this.nextIndex]
+  }
+
   dequeue(): Item | undefined {
-    const item = this.items[this.nextIndex]
+    const item = this.peakNext()
 
     this.nextIndex += 1
 
     return item
   }
-
-  [Symbol.iterator](): IterableIterator<Item> {
-    return this.items.slice(this.nextIndex).values()
-  }
 }
 
-class AccountController {
+class AccountDebounced extends Account {
   private readonly commands = new Queue<AddNumberCommand>()
   private commandsRunning = false
 
-  constructor(public readonly account: Account) {}
-
-  async runCommands(): Promise<void> {
+  private async runCommands(): Promise<void> {
     this.commandsRunning = true
 
-    for (const command of this.commands) {
-      await this.account.addAmount(command)
+    while (this.commands.count > 0) {
+      const command = this.commands.dequeue()!
 
-      this.commands.dequeue()
+      try {
+        console.log(`cmd:run ${command.id} ...`)
+ 
+        await super.addAmount(command.payload)
+
+        console.log(`cmd:okk ${command.id}: ${this.balance}`)
+      } catch (error) {
+        if (error instanceof AccountBalanceTooLowError) {
+          console.error(`cmd:ERR ${command.id}: ${error.message}`)
+        } else {
+          throw error
+        }
+      }
     }
 
     this.commandsRunning = false
   }
 
-  async addAmount(command: AddNumberCommand): Promise<void> {
+  async addAmount(amount: number): Promise<void> {
+    const command = new AddNumberCommand(amount)
+
     this.commands.enqueue(command)
+
+    console.log(`cmd:add ${command.description}`)
 
     if (!this.commandsRunning) {
       await this.runCommands()
@@ -90,31 +104,17 @@ class AccountController {
   }
 }
 
-const accountController = new AccountController(
-  new Account('UAH', 100),
-)
-
-console.log(`Created an account: ${accountController.account}`)
-
-const burstyAccountCommands = [
-  { operand: -88 }, // :: 12
-  { operand: -10 }, // :: 2
-  { operand: -19 }, // REJECTED
-  { operand: -91 }, // REJECTED
-  { operand: +93 }, // :: 95
-  { operand: +99 }, // :: 194
-  { operand: -81 }, // :: 113
-  { operand: -17 }, // :: 96
-  { operand: -65 }, // :: 31
-  { operand: -51 }, // REJECTED
-] satisfies AddNumberCommand[]
-
 async function main(): Promise<void> {
-  for (const command of burstyAccountCommands) {
-    await accountController.addAmount(command)
+  const account = new AccountDebounced(100)
+
+  console.log(`Created an account: ${account.balance}`)
+  console.log('Press <Enter> to generate a random command\n')
+
+  for await (const line of createInterface(process.stdin, process.stdout)) {
+    account.addAmount(randomInt(100, -150))
   }
 
-  console.log(`Account balance: ${accountController.account}`)
+  console.log(`\nAccount balance: ${account.balance}`)
 }
 
 main()
