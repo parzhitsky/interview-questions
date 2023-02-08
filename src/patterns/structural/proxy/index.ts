@@ -57,7 +57,9 @@ class Queue<Item> {
   dequeue(): Item | undefined {
     const item = this.peakNext()
 
-    this.nextIndex += 1
+    if (this.nextIndex < this.items.length) {
+      this.nextIndex += 1
+    }
 
     return item
   }
