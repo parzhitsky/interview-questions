@@ -20,13 +20,13 @@ class Account {
   constructor(public balance = 0) {}
 
   async addAmount(amount: number): Promise<void> {
+    await delay(randomInt(1000, 500)) // wait 0.5 to 1 sec to imitate true asynchronicity
+
     const nextBalance = this.balance + amount
 
     if (nextBalance < 0) {
       throw new AccountBalanceTooLowError(this.balance)
     }
-
-    await delay(randomInt(1000, 500)) // wait 0.5 to 1 sec to imitate true asynchronicity
 
     this.balance = nextBalance
   }
