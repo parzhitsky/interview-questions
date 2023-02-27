@@ -20,14 +20,20 @@ export class SmartHome {
   )
 
   setRelaxingLighting(): void {
+    console.log('setRelaxingLighting()')
+
     this.history.exec(this.setRelaxingLightingCommand)
   }
 
   setWorkingLighting(): void {
+    console.log('setWorkingLighting()')
+
     this.history.exec(this.setWorkingLightingCommand)
   }
 
   returnToLastScene(): void {
+    console.log('returnToLastScene()')
+
     this.history.undo()
   }
 }
