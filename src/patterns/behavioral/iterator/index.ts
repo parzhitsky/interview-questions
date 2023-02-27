@@ -18,7 +18,7 @@ class Program {
     return phoneBook
   }
 
-  protected sendMessageToAllAlexes(message: string): void {
+  protected writeToAlexes(message: string): void {
     const contacts = this.phoneBook.createIterable()
     const iterator = new SendMessageToAllAlexes(message, contacts)
 
@@ -26,8 +26,8 @@ class Program {
   }
 
   main(): void {
-    this.sendMessageToAllAlexes('Hey, Big-L! Wanna hang out tonight?')
-    this.sendMessageToAllAlexes('Hey, bud, you good?')
+    this.writeToAlexes('Hey, Big-L! Wanna hang out tonight?')
+    this.writeToAlexes('Hey, bud, you good?')
   }
 }
 
